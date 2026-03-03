@@ -124,5 +124,5 @@ return [
     ],
 
     //custom
-    'email_verification' => env('EMAIL_VERIFICATION', true),
+    'email_verification' => env('EMAIL_VERIFICATION', false),
 ];

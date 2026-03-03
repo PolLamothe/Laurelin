@@ -10,4 +10,11 @@ export default defineConfig({
         }),
         vue(), // Active le plugin Vue
     ],
-});
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost',
+        },
+        cors: true,
+    },
+    });

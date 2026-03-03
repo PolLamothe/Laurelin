@@ -12,10 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER STOCK_INSUFFISANT
+        DB::unprepared("DROP TRIGGER IF EXISTS STOCK_INSUFFISANT");
+        DB::unprepared("
+            CREATE TRIGGER STOCK_INSUFFISANT
             BEFORE INSERT ON Produit_Commande
             FOR EACH ROW
             BEGIN
@@ -25,13 +25,12 @@ return new class extends Migration
                     SIGNAL SQLSTATE '45003' SET MESSAGE_TEXT = 'Stock insuffisant pour ce produit.';
                 END IF;
             END;
-
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER STOCK_INSUFFISANT_UPDATE
+        DB::unprepared("DROP TRIGGER IF EXISTS STOCK_INSUFFISANT_UPDATE");
+        DB::unprepared("
+            CREATE TRIGGER STOCK_INSUFFISANT_UPDATE
             BEFORE UPDATE ON Produit_Commande
             FOR EACH ROW
             BEGIN
@@ -41,13 +40,12 @@ return new class extends Migration
                     SIGNAL SQLSTATE '45003' SET MESSAGE_TEXT = 'Stock insuffisant pour ce produit.';
                 END IF;
             END;
-
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER ANNULLATION_COMMANDE_STOCK
+        DB::unprepared("DROP TRIGGER IF EXISTS ANNULLATION_COMMANDE_STOCK");
+        DB::unprepared("
+            CREATE TRIGGER ANNULLATION_COMMANDE_STOCK
             AFTER DELETE ON Produit_Commande
             FOR EACH ROW
             BEGIN
@@ -57,10 +55,10 @@ return new class extends Migration
             END;
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER COMMENTAIRE_PRODUIT_RETIRE
+        DB::unprepared("DROP TRIGGER IF EXISTS COMMENTAIRE_PRODUIT_RETIRE");
+        DB::unprepared("
+            CREATE TRIGGER COMMENTAIRE_PRODUIT_RETIRE
             BEFORE INSERT ON Commentaire
             FOR EACH ROW
             BEGIN
@@ -72,10 +70,10 @@ return new class extends Migration
             END;
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER MISE_A_JOUR_STOCK
+        DB::unprepared("DROP TRIGGER IF EXISTS MISE_A_JOUR_STOCK");
+        DB::unprepared("
+            CREATE TRIGGER MISE_A_JOUR_STOCK
             AFTER INSERT ON Produit_Commande
             FOR EACH ROW
             BEGIN
@@ -85,10 +83,10 @@ return new class extends Migration
             END;
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER MISE_A_JOUR_STOCK_UPDATE
+        DB::unprepared("DROP TRIGGER IF EXISTS MISE_A_JOUR_STOCK_UPDATE");
+        DB::unprepared("
+            CREATE TRIGGER MISE_A_JOUR_STOCK_UPDATE
             AFTER UPDATE ON Produit_Commande
             FOR EACH ROW
             BEGIN
@@ -96,47 +94,46 @@ return new class extends Migration
                 SET STOCK = STOCK - (NEW.QUANTITE - OLD.QUANTITE)
                 WHERE Produit.ID = NEW.ID_PRODUIT;
             END;
-
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER MISE_A_JOUR_ETAT
+        DB::unprepared("DROP TRIGGER IF EXISTS MISE_A_JOUR_ETAT");
+        DB::unprepared("
+            CREATE TRIGGER MISE_A_JOUR_ETAT
             AFTER INSERT ON Produit_Commande
             FOR EACH ROW
             BEGIN
                 DECLARE STOCK_STATUS INT;
                 SELECT STOCK INTO STOCK_STATUS FROM Produit WHERE Produit.ID = NEW.ID_PRODUIT;
                 IF STOCK_STATUS = 0 THEN
-                    UPDATE Produit SET ETAT = 'Indisponible' WHERE STOCK = STOCK_STATUS;
+                    UPDATE Produit SET ETAT = 'Indisponible' WHERE ID = NEW.ID_PRODUIT;
                 ELSEIF STOCK_STATUS != 0 THEN
-                    UPDATE Produit SET ETAT = 'Disponible' WHERE STOCK = STOCK_STATUS;
+                    UPDATE Produit SET ETAT = 'Disponible' WHERE ID = NEW.ID_PRODUIT;
                 END IF;
             END;
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER MISE_A_JOUR_ETAT_UPDATE
+        DB::unprepared("DROP TRIGGER IF EXISTS MISE_A_JOUR_ETAT_UPDATE");
+        DB::unprepared("
+            CREATE TRIGGER MISE_A_JOUR_ETAT_UPDATE
             AFTER UPDATE ON Produit_Commande
             FOR EACH ROW
             BEGIN
                 DECLARE STOCK_STATUS INT;
                 SELECT STOCK INTO STOCK_STATUS FROM Produit WHERE Produit.ID = NEW.ID_PRODUIT;
                 IF STOCK_STATUS = 0 THEN
-                    UPDATE Produit SET ETAT = 'Indisponible' WHERE STOCK = STOCK_STATUS;
+                    UPDATE Produit SET ETAT = 'Indisponible' WHERE ID = NEW.ID_PRODUIT;
                 ELSEIF STOCK_STATUS != 0 THEN
-                    UPDATE Produit SET ETAT = 'Disponible' WHERE STOCK = STOCK_STATUS;
+                    UPDATE Produit SET ETAT = 'Disponible' WHERE ID = NEW.ID_PRODUIT;
                 END IF;
             END;
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER VERIF_COMMENTAIRE
+        DB::unprepared("DROP TRIGGER IF EXISTS VERIF_COMMENTAIRE");
+        DB::unprepared("
+            CREATE TRIGGER VERIF_COMMENTAIRE
             BEFORE INSERT ON Commentaire
             FOR EACH ROW
             BEGIN
@@ -146,10 +143,10 @@ return new class extends Migration
             END;
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER NO_DELETE_USER_COMMANDES
+        DB::unprepared("DROP TRIGGER IF EXISTS NO_DELETE_USER_COMMANDES");
+        DB::unprepared("
+            CREATE TRIGGER NO_DELETE_USER_COMMANDES
             BEFORE DELETE ON Utilisateur
             FOR EACH ROW
             BEGIN
@@ -164,10 +161,10 @@ return new class extends Migration
             END;
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER SET_DATE_COMMANDE
+        DB::unprepared("DROP TRIGGER IF EXISTS SET_DATE_COMMANDE");
+        DB::unprepared("
+            CREATE TRIGGER SET_DATE_COMMANDE
             BEFORE INSERT ON Commande
             FOR EACH ROW
             BEGIN
@@ -177,10 +174,9 @@ return new class extends Migration
             END;
         ");
 
-
         /* OK */
-        // Insert
-        DB::statement("
+        DB::unprepared("DROP TRIGGER IF EXISTS VALID_NUMBER_INSERT");
+        DB::unprepared("
             CREATE TRIGGER VALID_NUMBER_INSERT
             BEFORE INSERT ON Utilisateur
             FOR EACH ROW
@@ -192,9 +188,9 @@ return new class extends Migration
             END;
         ");
 
-
-        // Update
-        DB::statement("
+        /* OK */
+        DB::unprepared("DROP TRIGGER IF EXISTS VALID_NUMBER_UPDATE");
+        DB::unprepared("
             CREATE TRIGGER VALID_NUMBER_UPDATE
             BEFORE UPDATE ON Utilisateur
             FOR EACH ROW
@@ -206,11 +202,10 @@ return new class extends Migration
             END;
         ");
 
-
         /* OK */
-        // Insert
-        DB::statement("
-            CREATE OR REPLACE TRIGGER VALID_EMAIL_INSERT
+        DB::unprepared("DROP TRIGGER IF EXISTS VALID_EMAIL_INSERT");
+        DB::unprepared("
+            CREATE TRIGGER VALID_EMAIL_INSERT
             BEFORE INSERT ON Utilisateur
             FOR EACH ROW
             BEGIN
@@ -221,10 +216,10 @@ return new class extends Migration
             END;
         ");
 
-
-        // Update
-        DB::statement("
-            CREATE OR REPLACE TRIGGER VALID_EMAIL_UPDATE
+        /* OK */
+        DB::unprepared("DROP TRIGGER IF EXISTS VALID_EMAIL_UPDATE");
+        DB::unprepared("
+            CREATE TRIGGER VALID_EMAIL_UPDATE
             BEFORE UPDATE ON Utilisateur
             FOR EACH ROW
             BEGIN
@@ -235,10 +230,10 @@ return new class extends Migration
             END;
         ");
 
-
         /* OK */
-        DB::statement("
-            CREATE OR REPLACE TRIGGER VALID_ADRESSE_OF_USERS
+        DB::unprepared("DROP TRIGGER IF EXISTS VALID_ADRESSE_OF_USERS");
+        DB::unprepared("
+            CREATE TRIGGER VALID_ADRESSE_OF_USERS
             BEFORE INSERT ON Commande
             FOR EACH ROW
             BEGIN
@@ -255,8 +250,6 @@ return new class extends Migration
                 END IF;
             END;
         ");
-
-
     }
 
 

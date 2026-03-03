@@ -14,13 +14,21 @@ class ImageSeeder extends Seeder
      */
     public function run(): void
     {
-        $all_products = Storage::directories("images/produits");
-        foreach ($all_products as $product) {
-            $images_root_url = Storage::files($product);
-            foreach ($images_root_url as $image) {
+        $produitsPath = public_path('pictures/produits');
+        
+        if (!file_exists($produitsPath)) {
+            return;
+        }
 
-                $url = '/'.str_replace('images', 'pictures', $image);
-                $id_prod = pathinfo($product, PATHINFO_BASENAME);
+        $all_products = array_filter(glob($produitsPath . '/*'), 'is_dir');
+
+        foreach ($all_products as $productPath) {
+            $id_prod = basename($productPath);
+            $images = glob($productPath . '/*.{webp,jpg,jpeg,png,avif}', GLOB_BRACE);
+
+            foreach ($images as $imagePath) {
+                $filename = basename($imagePath);
+                $url = "/pictures/produits/$id_prod/$filename";
 
                 DB::table('Image')->insert([
                     "URL" => $url,

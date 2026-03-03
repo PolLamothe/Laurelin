@@ -54,12 +54,18 @@ async function sendData(){
         },
     }).then(async response =>{
         if(response.status == 200){
-            if (redirectCookie != undefined && props.dest !== "/auth/register") {
-                window.location = redirectCookie.replace("%2F","/")
-            }else{
+            let json = await response.json();
+            if (props.succeedMessage) {
                 alert(props.succeedMessage);
-                emit("formSubmitSuccessfully",await response.json())
             }
+            if (props.dest === "/auth/register" || props.dest === "/auth/login") {
+                if (redirectCookie != undefined) {
+                    window.location = redirectCookie.replace("%2F", "/");
+                } else {
+                    window.location = "/";
+                }
+            }
+            emit("formSubmitSuccessfully", json);
         }else{
             const reader = response.body.getReader()
             const text = new TextDecoder().decode((await reader.read()).value)

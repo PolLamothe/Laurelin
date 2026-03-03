@@ -48,9 +48,16 @@ class AuthController extends Controller
                     throw DomainExceptions::createError(521, "Veuillez accepter les conditions d'utilisation");
                 }
 
-                $this->userService->register($data[$currentFields["fields"][0]],$data[$currentFields["fields"][1]],$data[$currentFields["fields"][2]],$data[$currentFields["fields"][3]]);
+                $user = $this->userService->register($data[$currentFields["fields"][0]],$data[$currentFields["fields"][1]],$data[$currentFields["fields"][2]],$data[$currentFields["fields"][3]]);
 
-                return response("registered successfully");
+                return response()->json(["message" => "registered successfully"])->cookie(
+                    "TOKEN",
+                    $user->getToken(),
+                    43800,
+                    "/",
+                    null,
+                    true
+                );
 
             } else if($method == "login") {
                 $currentFields = self::$fields["login"];
@@ -69,8 +76,10 @@ class AuthController extends Controller
                     }
                 }
 
+                $resp = response()->json(["message" => "login successfuly"]);
+
                 if($data[$currentFields["checkBoxs"][0]]){
-                    return response("login successfuly")->cookie(
+                    $resp->cookie(
                         "TOKEN",
                         $user->getToken(),
                         43800,
@@ -79,7 +88,7 @@ class AuthController extends Controller
                         true
                     );
                 }
-                return redirect("/");
+                return $resp;
             } else {
                 throw \App\Domain\Shared\Exceptions::createError(513);
             }

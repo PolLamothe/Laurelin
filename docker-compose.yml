@@ -1,0 +1,66 @@
+services:
+  # PHP App
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        user: ${USER:-user}
+        uid: ${UID:-1000}
+    image: laurelin-app
+    container_name: laurelin-app
+    restart: unless-stopped
+    working_dir: /var/www
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/var/www
+    networks:
+      - laurelin-network
+
+  # Nginx Server
+  nginx:
+    image: nginx:alpine
+    container_name: laurelin-nginx
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-8000}:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - laurelin-network
+
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: laurelin-db
+    restart: unless-stopped
+    command: --log_bin_trust_function_creators=1
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-laravel}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+      MYSQL_USER: ${DB_USERNAME:-laravel}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-root}
+    ports:
+      - "${DB_PORT_EXTERNAL:-3306}:3306"
+    volumes:
+      - laurelin-db-data:/var/lib/mysql
+    networks:
+      - laurelin-network
+
+  # Redis
+  redis:
+    image: redis:alpine
+    container_name: laurelin-redis
+    restart: unless-stopped
+    networks:
+      - laurelin-network
+
+networks:
+  laurelin-network:
+    driver: bridge
+
+volumes:
+  laurelin-db-data:
+    driver: local

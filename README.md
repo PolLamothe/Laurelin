@@ -2,10 +2,9 @@
 
 # SAE 301 : Développement d'une application
 
-**Groupe_1_1 : Kyllian Arnaud, Jauzua Destain, Pol Lamothe, Brieuc Le Carluer, Thomas Souchet**
+**Groupe_1_1 : Kyllian Arnaud, Pol Lamothe, Brieuc Le Carluer, Thomas Souchet**
 
 + *Laurelin* est un site d'e-commerce de vente de bijoux de luxe.
-+ L'adresse IP de la VM qui héberge le site est : [172.21.44.118](http://172.21.44.118/)
 
 ## Technologies choisies
 
@@ -28,3 +27,63 @@ Malgré le fait que Laravel offre une approche plus assouplie de l'implémentati
 ### Capture d'écran de la page d'accueil
 
 ![Home page](./uml/HomePage.png)
+
+## Déploiement
+
+### Avec Docker (Recommandé)
+
+Le projet utilise Docker Compose pour orchestrer les services (PHP-FPM, Nginx, MySQL, Redis).
+
+1. **Configuration de l'environnement :**
+   ```bash
+   cp .env.example .env
+   # Modifiez les variables DB_* pour correspondre à la configuration docker-compose
+   ```
+
+2. **Lancer les conteneurs :**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **Initialisation de l'application :**
+   ```bash
+   docker-compose exec app composer install
+   docker-compose exec app php artisan key:generate
+   docker-compose exec app php artisan storage:link
+   docker-compose exec app php artisan migrate --seed
+   docker-compose exec app npm install
+   docker-compose exec app npm run build
+   ```
+
+### Déploiement manuel (Sans Docker)
+
+1. **Prérequis :** PHP >= 8.2, Composer, Node.js & NPM, MySQL/MariaDB.
+2. **Installation :** Suivre les étapes détaillées dans [INSTALLATION.md](INSTALLATION.md).
+3. **Optimisations pour la production :**
+   ```bash
+   composer install --optimize-autoloader --no-dev
+   npm run build
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
+
+## Tests et Qualité
+
+### Lancer les tests
+
+Vous pouvez exécuter les tests automatisés (Unitaires et Feature) avec PHPUnit :
+
+**Via Docker :**
+```bash
+docker-compose exec app php artisan test
+```
+
+**Localement :**
+```bash
+php artisan test
+```
+
+### Autres outils
+- **Linting (Pint) :** `docker-compose exec app ./vendor/bin/pint`
+- **Tests de charge :** Voir le dossier `loadTest/`
