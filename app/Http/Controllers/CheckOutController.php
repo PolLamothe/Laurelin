@@ -31,7 +31,7 @@ class CheckOutController extends Controller
             }
         } catch(CustomExceptions $e) {
             if($e->httpCode == 401 || $e->httpCode == 403){
-                return redirect("/Laurelin/auth")->cookie("redirect","/Laurelin/checkout",10,null,null,false,false)->withCookie(Cookie::forget("TOKEN"));
+                return redirect("/auth")->cookie("redirect","/Laurelin/checkout",10,null,null,false,false)->withCookie(Cookie::forget("TOKEN"));
             }else{
                 throw $e;
             }
@@ -56,7 +56,7 @@ class CheckOutController extends Controller
 
         $panier = $this->cartService->getCart($user);
         if (empty($panier->getProducts())) {
-            return redirect("/Laurelin/panier");
+            return redirect("/panier");
         }
         $panierSerialized = $this->cartService->getCart($user)->serialize();
 

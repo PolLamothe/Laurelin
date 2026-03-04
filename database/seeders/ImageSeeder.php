@@ -14,7 +14,7 @@ class ImageSeeder extends Seeder
      */
     public function run(): void
     {
-        $produitsPath = public_path('pictures/produits');
+        $produitsPath = public_path('images/produits');
         
         if (!file_exists($produitsPath)) {
             return;
@@ -28,7 +28,7 @@ class ImageSeeder extends Seeder
 
             foreach ($images as $imagePath) {
                 $filename = basename($imagePath);
-                $url = "/Laurelin/pictures/produits/$id_prod/$filename";
+                $url = "/Laurelin/images/produits/$id_prod/$filename";
 
                 DB::table('Image')->insert([
                     "URL" => $url,

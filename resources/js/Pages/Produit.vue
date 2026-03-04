@@ -39,7 +39,7 @@
         </div>
 
         <div id="prodCreaAssocier">
-            <div v-for="prodA in prodAssocier" :key="prodA.ID" class="item" :style="{ backgroundImage: `url(${prodA.IMAGES[0]})` }">
+            <div v-for="prodA in prodAssocier" :key="prodA.ID" class="item" :style="{ backgroundImage: `url(${prodA.IMAGES?.[0]})` }">
                 <span id="favoriteButton2" class="add-fav" :class="prodA.FAVORITE ? 'material-symbols-outlined' : 'material-symbols-rounded'" @click="changeFavorite(prodA.ID)">favorite</span>
                 <span class="item-text font-subtitle-16">{{ prodA.NOM }}</span>
                 <span class="materiaux-text font-subtitle-16">{{ prodA.MATERIAUX }}</span>

@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Forcer le préfixe pour toutes les URLs générées
         URL::forceRootUrl(config('app.url'));
+        URL::forceScheme('https');
 
         EncryptCookies::except('redirect');
         DB::listen(function ($query) {

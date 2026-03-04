@@ -26,7 +26,7 @@
     <div id="nouveauté">
         <p class="font-title-24">Nouveauté</p>
         <div class="container">
-                <div v-for="produit in produits" :key="produit.ID" class="item" :data-id="produit.ID" :style="{ backgroundImage: 'url(' + produit.IMAGES[0] + ')' }" @click="redirectOnClick('/Laurelin/produit/' + produit.ID)">
+                <div v-for="produit in produits" :key="produit.ID" class="item" :data-id="produit.ID" :style="{ backgroundImage: 'url(' + produit.IMAGES?.[0] + ')' }" @click="redirectOnClick('/Laurelin/produit/' + produit.ID)">
                     <span class="item-text font-subtitle-16">{{ produit.NOM }}</span>
                     <span class="materiaux-text font-subtitle-16">{{ produit.MATERIAUX }}</span>
                     <a class="btn-side" :href="'/Laurelin/produit/'+produit.ID">Découvrir</a>
@@ -52,7 +52,7 @@
     <div id="collection">
         <p class="font-title-24">Nos Collections</p>
         <div id="coll-container">
-            <div v-for="collection in collections" :key="collection.ID" class="item" id="coll_item" :data-id="collection.ID" :style="{ backgroundImage: 'url(/Laurelin/pictures/collections/' + collection.ID + '.jpg)' }" @click="redirectOnClick('/Laurelin/collections/' + collection.NOM)">
+            <div v-for="collection in collections" :key="collection.ID" class="item" id="coll_item" :data-id="collection.ID" :style="{ backgroundImage: 'url(/Laurelin/images/collections/' + collection.ID + '.jpg)' }" @click="redirectOnClick('/Laurelin/collections/' + collection.NOM)">
                 <span id="name" class="item-text font-subtitle-16">{{ collection.NOM }}</span>
                 <span id="description" class="materiaux-text font-subtitle-16">{{ collection.DESCRIPTION.substring(0, 90) + "..." }}</span>
                 <a class="btn-side" :href="'/Laurelin/collections/'+collection.NOM">Découvrir</a>

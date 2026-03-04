@@ -4,7 +4,7 @@
 
     <div id="page">
         <Error :message="errorMesage" v-if="errorMesage != ''" @click="errorMesage = ''"></Error>
-        <div id="FirstRange" :style="{ backgroundImage: `url('/Laurelin/pictures/categories/${categories}.1.webp'), url('/Laurelin/pictures/collections/${collections}.jpg')` }">
+        <div id="FirstRange" :style="{ backgroundImage: `url('/Laurelin/images/categories/${categories}.1.webp'), url('/Laurelin/images/collections/${collections}.jpg')` }">
             <span class="material-symbols-rounded">
               arrow_back_ios
             </span>
@@ -22,7 +22,7 @@
 
         <div id="ProduitRange">
             <div class="container">
-                <div v-for="produit in produitsAffiches" :key="produit.ID" class="item" :data-id="produit.ID" :style="{ backgroundImage: `url(${produit.IMAGES[0]})` }" @click="redirectOnClick(produit.ID)">
+                <div v-for="produit in produitsAffiches" :key="produit.ID" class="item" :data-id="produit.ID" :style="{ backgroundImage: `url(${produit.IMAGES?.[0]})` }" @click="redirectOnClick(produit.ID)">
                     <span class="add-fav" :class="produit.FAVORITE ? 'material-symbols-outlined' : 'material-symbols-rounded'" @click="changeFavorite(produit.ID)">favorite</span>
                     <span class="item-text font-subtitle-16">{{ produit.NOM }}</span>
                     <span class="materiaux-text font-subtitle-16">{{ produit.MATERIAUX }}</span>
