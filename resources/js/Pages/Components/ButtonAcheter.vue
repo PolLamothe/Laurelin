@@ -15,7 +15,7 @@ let props = defineProps({
 let emits = defineEmits(["ajout"])
 
 function ajoutAuPanier(){
-    fetch("/panier/ajout",{
+    fetch("/Laurelin/panier/ajout",{
         method : "POST",
         body : JSON.stringify({
             produit : props.id,
@@ -35,7 +35,7 @@ function ajoutAuPanier(){
                 }
             }
         } else if (response.status === 401) {
-            window.location.href = "/auth/login"
+            window.location.href = "/Laurelin/auth/login"
         }
     })
 }

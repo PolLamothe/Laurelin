@@ -150,7 +150,7 @@ body {
 .hero {
   position: relative;
   height: 100vh;
-  background: url('/public/images/creation.jpg') no-repeat center center/cover;
+  background: url('/Laurelin/images/creation.jpg') no-repeat center center/cover;
 }
 
 .hero-overlay {
@@ -261,15 +261,15 @@ body {
 }
 
 .le-createur .background-blur {
-  background-image: url('/public/images/createur.jpg');
+  background-image: url('/Laurelin/images/createur.jpg');
 }
 
 .nos-creations .background-blur {
-  background-image: url('/public/images/bluediamond.jpg');
+  background-image: url('/Laurelin/images/bluediamond.jpg');
 }
 
 .localisation .background-blur {
-  background-image: url('/public/images/durabilite.jpg');
+  background-image: url('/Laurelin/images/durabilite.jpg');
 }
 
 .text-box {

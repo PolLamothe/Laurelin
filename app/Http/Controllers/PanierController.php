@@ -28,7 +28,7 @@ class PanierController extends Controller
             }
         }catch(\Exception $e){
             if($e->getCode() == 518){
-                return redirect("/auth")->cookie("redirect","/panier",10,null,null,false,false)->withCookie(Cookie::forget("TOKEN"));
+                return redirect("/Laurelin/auth")->cookie("redirect","/Laurelin/panier",10,null,null,false,false)->withCookie(Cookie::forget("TOKEN"));
             }else{
                 throw $e;
             }

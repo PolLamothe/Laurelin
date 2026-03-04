@@ -113,7 +113,7 @@ class AuthController extends Controller
             }
         }
 
-        return redirect("/account");
+        return redirect("/Laurelin/account");
     }
 
     public function recoverPassword(string $ID, string $token,Request $request){

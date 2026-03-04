@@ -2,16 +2,16 @@
     <Header currentPage="Accueil"></Header>
     <div class="hero">
         <video autoplay muted loop class="background-video">
-            <source src="/public/images/video1.mp4" type="video/mp4">
+            <source :src="'/Laurelin/images/video1.mp4'" type="video/mp4">
         </video>
         <div class="left">
             <p class="font-title" id="titre">Illuminez vos journées</p>
             <p class="font-body-m">L'avenir ce dessine avec Laurelin, transformer vos rêves en réalité</p>
-            <a href="/bijoux" class="btn-side">Découvrir nos bijoux</a>
+            <a href="/Laurelin/bijoux" class="btn-side">Découvrir nos bijoux</a>
         </div>
         <div class="right">
             <div class="first">
-                <a href="/categories/Bagues">
+                <a href="/Laurelin/categories/Bagues">
                     <div class="text_fleche">
                         <p>Nouvelle Bague</p>
                         <span class="material-symbols-rounded">east</span>
@@ -26,21 +26,21 @@
     <div id="nouveauté">
         <p class="font-title-24">Nouveauté</p>
         <div class="container">
-                <div v-for="produit in produits" :key="produit.ID" class="item" :data-id="produit.ID" :style="{ backgroundImage: `url(${produit.IMAGES[0]})` }" @click="redirectOnClick(produit.ID)">
+                <div v-for="produit in produits" :key="produit.ID" class="item" :data-id="produit.ID" :style="{ backgroundImage: 'url(' + produit.IMAGES[0] + ')' }" @click="redirectOnClick('/Laurelin/produit/' + produit.ID)">
                     <span class="item-text font-subtitle-16">{{ produit.NOM }}</span>
                     <span class="materiaux-text font-subtitle-16">{{ produit.MATERIAUX }}</span>
-                    <a class="btn-side" :href="'/produit/'+produit.ID">Découvrir</a>
+                    <a class="btn-side" :href="'/Laurelin/produit/'+produit.ID">Découvrir</a>
                 </div>
             </div>
     </div>
     <div class="history">
         <div class="image">
-            <img src="/public/images/history.png">
+            <img :src="'/Laurelin/images/history.png'">
         </div>
         <div class="paragraphe">
             <p id="titre_histoire" class="font-title-24">Notre histoire</p>
             <p class="font-normal-12" id="histoire">Depuis ses débuts, Laurelin a repoussé les limites de l'artisanat de luxe. Chaque création est pensée comme une œuvre d'art, unique et intemporelle. La maîtrise des techniques ancestrales se marie avec une innovation constante. Nous sélectionnons uniquement les matériaux les plus précieux et durables. Notre savoir-faire incarne un héritage qui traverse les générations. </p>
-            <a href="/histoire">
+            <a href="/Laurelin/histoire">
                     <div class="text_fleche" id="a_propos">
                         <p>A propos de nous</p>
                         <span class="material-symbols-rounded">east</span>
@@ -52,10 +52,10 @@
     <div id="collection">
         <p class="font-title-24">Nos Collections</p>
         <div id="coll-container">
-            <div v-for="collection in collections" :key="collection.ID" class="item" id="coll_item" :data-id="collection.ID" :style="{ backgroundImage: `url(/pictures/collections/${collection.ID}.avif) ` }" @click="redirectOnClick(collection.ID)">
+            <div v-for="collection in collections" :key="collection.ID" class="item" id="coll_item" :data-id="collection.ID" :style="{ backgroundImage: 'url(/Laurelin/pictures/collections/' + collection.ID + '.jpg)' }" @click="redirectOnClick('/Laurelin/collections/' + collection.NOM)">
                 <span id="name" class="item-text font-subtitle-16">{{ collection.NOM }}</span>
                 <span id="description" class="materiaux-text font-subtitle-16">{{ collection.DESCRIPTION.substring(0, 90) + "..." }}</span>
-                <a class="btn-side" :href="'/collections/'+collection.NOM">Découvrir</a>
+                <a class="btn-side" :href="'/Laurelin/collections/'+collection.NOM">Découvrir</a>
             </div>
         </div>
     </div>
@@ -81,6 +81,13 @@ const props = defineProps({
 let compteur = ref(0)
 let last = props.produits.shift();
 let last2 = props.collections.pop();
+
+function redirectOnClick(url){
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    if(isTouchDevice){
+        window.location.href = url
+    }
+}
 </script>
 
 <style scoped>
@@ -161,7 +168,7 @@ let last2 = props.collections.pop();
     }
 
     .first{
-        background-image: url("/public/images/imgProd/w1242_tpadding12.webp");
+        background-image: url("/Laurelin/images/imgProd/w1242_tpadding12.webp");
         background-size: cover;
         background-position: center;
         filter: opacity(90%);

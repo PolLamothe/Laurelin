@@ -4,7 +4,7 @@
     <div id="firstWrapper">
 
         <div class="footer-section">
-            <img src="/public/images/logo.png" alt="Logo Laurelin" class="logo" />
+            <img :src="'/Laurelin/images/logo.png'" alt="Logo Laurelin" class="logo" />
         </div>
 
         <div class="footer-section" v-for="(sections, sectionTitle) in content" :key="sectionTitle">
@@ -25,13 +25,13 @@
             <p class="section-title font-title-24">Canaux Principaux</p>
             <div class="social-links">
                 <a href="https://www.instagram.com/laurelin.jewels/">
-                    <img src="/public/images/instagram.svg" alt="Instagram" class="icon" />
+                    <img :src="'/Laurelin/images/instagram.svg'" alt="Instagram" class="icon" />
                 </a>
                 <a href="https://x.com/LaurelinJewels">
-                    <img src="/public/images/x.svg" alt="X" class="icon" />
+                    <img :src="'/Laurelin/images/x.svg'" alt="X" class="icon" />
                 </a>
                 <a href="https://fr.pinterest.com/search/pins/?q=Luxury%20Jewels&rs=typed">
-                    <img src="/public/images/pinterest.svg" alt="Pinterest" class="icon" />
+                    <img :src="'/Laurelin/images/pinterest.svg'" alt="Pinterest" class="icon" />
                 </a>
             </div>
         </div>
@@ -49,31 +49,31 @@
 const content = {
     Laurelin: {
         "Nos Produits": {
-            Bagues: "/categories/Bagues",
-            Bracelets: "/categories/Bracelets",
-            Colliers: "/categories/Colliers",
-            "Boucles d'oreilles": "/categories/Boucles%20d%27oreilles",
+            Bagues: "/Laurelin/categories/Bagues",
+            Bracelets: "/Laurelin/categories/Bracelets",
+            Colliers: "/Laurelin/categories/Colliers",
+            "Boucles d'oreilles": "/Laurelin/categories/Boucles%20d%27oreilles",
         },
         "À propos de nous": {
-            Créateur: "/histoire",
-            Créations: "/histoire",
-            Durabilité: "/histoire",
+            Créateur: "/Laurelin/histoire",
+            Créations: "/Laurelin/histoire",
+            Durabilité: "/Laurelin/histoire",
         },
         Contact: {
-            "Nous contacter": "/contact",
-            "Questions fréquentes": "/contact",
+            "Nous contacter": "/Laurelin/contact",
+            "Questions fréquentes": "/Laurelin/contact",
         },
     },
     "Légal": {
         "Mentions Légales": {
-            "Conditions d’utilisation": "/contact",
-            "Conditions de vente": "/contact",
-            "Politique de confidentialité": "/contact",
-            "Politique de cookies": "/contact",
+            "Conditions d’utilisation": "/Laurelin/contact",
+            "Conditions de vente": "/Laurelin/contact",
+            "Politique de confidentialité": "/Laurelin/contact",
+            "Politique de cookies": "/Laurelin/contact",
         },
         Support: {
-            Accessibilité: "/contact",
-            "Effectuer un signalement": "/contact",
+            Accessibilité: "/Laurelin/contact",
+            "Effectuer un signalement": "/Laurelin/contact",
         },
     },
 };
@@ -104,7 +104,7 @@ const content = {
 
     #secondWrapper {
         height: 400px;
-        background-image: url('/public/images/paysage.jpg');
+        background-image: url('/Laurelin/images/paysage.jpg');
         background-size: cover;
         background-position: center;
         display: flex;

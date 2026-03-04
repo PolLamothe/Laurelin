@@ -20,10 +20,10 @@ import Field from "./Field.vue"
 const emit = defineEmits(["textClicked","formSubmitSuccessfully","errorOccured"])
 
 let props = defineProps({
-    "fields":Array[Object],
+    "fields":Array,
     "buttonText":String,
     "checkBoxs":Array,
-    "texts":Array[String],
+    "texts":Array,
     "dest":String,
     "displayColumn" : Boolean,
     "succeedMessage" : String
@@ -45,7 +45,8 @@ async function sendData(){
     }
 
     var redirectCookie = getCookie("redirect")
-    fetch(props.dest,{
+    const fetchDest = props.dest.startsWith('/') && !props.dest.startsWith('/Laurelin') ? '/Laurelin' + props.dest : props.dest;
+    fetch(fetchDest,{
         method:"POST",
         body: JSON.stringify(body),
         headers: {
@@ -62,7 +63,7 @@ async function sendData(){
                 if (redirectCookie != undefined) {
                     window.location = redirectCookie.replace("%2F", "/");
                 } else {
-                    window.location = "/";
+                    window.location = "/Laurelin/";
                 }
             }
             emit("formSubmitSuccessfully", json);

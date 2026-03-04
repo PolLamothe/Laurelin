@@ -4,7 +4,7 @@
     <div v-if="paiementState && errorMesage == ''" id="paimentBackground">
         <div id="paiementPopupWrapper">
             <div id="paimentPopupContent">
-                <img src="/public/images/loading.gif">
+                <img :src="'/Laurelin/images/loading.gif'">
                 <p>Nous procédons au paiment</p>
             </div>
         </div>
@@ -16,8 +16,8 @@
                 <p id="info" class="font-subtitle-16">1 - Informations Personnelles</p>
                 <div id="contenuInfo" v-if="currentStep === 1">
                     <p id="texteInfo" class="font-body-m"> Pour poursuivre votre commande veuillez vous identifiez</p>
-                    <button class="font-body-l">Se connecter</button>
-                    <button class="font-body-l">S'inscrire</button>
+                    <button class="font-body-l" @click="window.location.href='/Laurelin/auth/login'">Se connecter</button>
+                    <button class="font-body-l" @click="window.location.href='/Laurelin/auth/register'">S'inscrire</button>
                 </div>
                 <div id="contenuInfo" v-else>
                     <p>Vous commandez avec cette adresse mail : {{ user["EMAIL"] }} </p>
@@ -28,17 +28,22 @@
                 <p id="adresse" class="font-subtitle-16">2 - Adresse de livraison</p>
                 <div id="contenuAdresse" v-if="currentStep === 2">
                     <div id="adresseChoiceWrapper">
-                        <button :class="{adresseChoiceActive :  adresseMethod === 'domicile'}" @click="changeadresseMethod()" class="font-subtitle-16">a domicile</button>
-                        <button :class="{adresseChoiceActive :  adresseMethod === 'magasin'}" @click="changeadresseMethod()" class="font-subtitle-16">retirer en magasin</button>
+                        <button :class="{adresseChoiceActive :  adresseMethod === 'domicile'}" @click="changeadresseMethod('domicile')" class="font-subtitle-16">a domicile</button>
+                        <button :class="{adresseChoiceActive :  adresseMethod === 'magasin'}" @click="changeadresseMethod('magasin')" class="font-subtitle-16">retirer en magasin</button>
                     </div>
                     <div v-if="adresseMethod === 'domicile'">
-                        <div class="adresseUser" v-for="(adresse,index) in adresses">
-                            <input class="radButton" type="radio" :checked="index === currentAdresse" @click="changeLivraison(index)" style="cursor: pointer">
-                            <div class="adresseUserr">
-                                <p class="font-subtitle-16 adresse">{{ adresse.NUM_RUE }} {{ adresse.NOM_RUE }}</p>
-                                <p class="font-subtitle-16 codePostale">{{ adresse.VILLE.CODE_POSTAL }}</p>
-                                <p class="font-subtitle-16 ville">{{ adresse.VILLE.NOM }}</p>
+                        <div v-if="adresses.length > 0">
+                            <div class="adresseUser" v-for="(adresse,index) in adresses">
+                                <input class="radButton" type="radio" :checked="index === currentAdresse" @click="changeLivraison(index)" style="cursor: pointer">
+                                <div class="adresseUserr">
+                                    <p class="font-subtitle-16 adresse">{{ adresse.NUM_RUE }} {{ adresse.NOM_RUE }}</p>
+                                    <p class="font-subtitle-16 codePostale">{{ adresse.VILLE.CODE_POSTAL }}</p>
+                                    <p class="font-subtitle-16 ville">{{ adresse.VILLE.NOM }}</p>
+                                </div>
                             </div>
+                        </div>
+                        <div v-else>
+                            <p class="font-body-m" style="padding: 20px;">Vous n'avez pas encore d'adresse enregistrée. <a href="/Laurelin/account/adresses" style="text-decoration: underline;">En ajouter une</a></p>
                         </div>
                     </div>
                     <div v-if="adresseMethod === 'magasin'">
@@ -47,7 +52,7 @@
                             <option :value="magasin" v-for="magasin in magasinsRecomm">{{ magasin.ADRESSE }} {{ magasin.VILLE.NOM }} {{ magasin.VILLE.CODE_POSTAL }}</option>
                         </select>
                     </div>
-                    <button id="adresseValidateButton" @click="validateLivraison()">
+                    <button id="adresseValidateButton" @click="validateLivraison()" :disabled="adresseMethod === 'magasin' && !currentMagasin">
                             <span class="material-symbols-rounded">
                                 location_on
                             </span>
@@ -64,6 +69,11 @@
 
             <div id="livraisonWrapper" class="wrapper" :class="['wrapper', currentStep === 3 ? 'bgGris' : '', currentStep > 3 ? 'cursor' : '']">
                 <p id="livraison" class="font-subtitle-16">3 - Options de Livraison</p>
+                <div id="contenuLivraison" v-if="currentStep === 3" style="padding: 20px; text-align: center;">
+                    <p class="font-body-m" v-if="adresseMethod === 'domicile'">Livraison Standard (3-5 jours ouvrés) - Offert</p>
+                    <p class="font-body-m" v-else>Retrait en magasin (disponible sous 24h) - Offert</p>
+                    <button id="adresseValidateButton" @click="currentStep = 4" style="margin-top: 20px;">Continuer</button>
+                </div>
             </div>
 
             <div id="paiementWrapper" :class="currentStep === 4 ? 'bgGris' : ''" class="wrapper" :style="currentStep == 4 ? 'padding-bottom: 5vh;' : ''">
@@ -146,15 +156,17 @@ let sum = 0
 
 let totArticle = 0
 
-for(let i = 0;i<props.produits.PRODUITS.length;i++){
-    totArticle += props.produits.PRODUITS[i].QUANTITE
+if (props.produits && props.produits.PRODUITS) {
+    for(let i = 0;i<props.produits.PRODUITS.length;i++){
+        totArticle += props.produits.PRODUITS[i].QUANTITE
+    }
+
+    for(let i = 0;i<props.produits.PRODUITS.length;i++){
+        sum += props.produits.PRODUITS[i].PRODUIT.PRIX * props.produits.PRODUITS[i].QUANTITE
+    }
 }
 
-for(let i = 0;i<props.produits.PRODUITS.length;i++){
-    sum += props.produits.PRODUITS[i].PRODUIT.PRIX * props.produits.PRODUITS[i].QUANTITE
-}
-
-let data = {}
+let data = ref({})
 
 let adresseMethod = ref("domicile")
 
@@ -175,7 +187,11 @@ watch(paiementState,async value=>{
 })
 
 function searchMagasins(codePostale){
-    fetch("/adresse/getMagasins/"+codePostale,{
+    if (codePostale.length < 2) {
+        magasinsRecomm.value = [];
+        return;
+    }
+    fetch("/Laurelin/adresse/getMagasins/"+codePostale,{
         method : "GET",
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -191,10 +207,15 @@ async function paye(){
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    const response = await fetch("/checkout/valider",{
+    if (!paimentData.value['nom'] || !paimentData.value['numéro'] || !paimentData.value['mois'] || !paimentData.value['année'] || !paimentData.value['cryptograme']) {
+        errorMesage.value = "Veuillez remplir tous les champs de paiement";
+        return;
+    }
+
+    const response = await fetch("/Laurelin/checkout/valider",{
         method : "POST",
         body : JSON.stringify({
-            "adresse" : data["adresse"].ID,
+            "adresse" : data.value["adresse"].ID,
             "livraison" : adresseMethod.value,
             "paiement" : paimentData.value
         }),
@@ -203,19 +224,24 @@ async function paye(){
             "Content-Type":"application/json"
         },
     })
+    
     if(response.status !== 200){
         const reader = response.body.getReader()
         errorMesage.value = new TextDecoder().decode((await reader.read()).value)
         return
     }
+    
     paiementState.value = true
     await sleep(0)
-    document.getElementById("paimentBackground").style.top = window.scrollY+"px"
-    await sleep(Math.random()*3000 + 3000)
-    if(response.status === 200){
-        window.location="/account/commandes"
+    
+    const popup = document.getElementById("paimentBackground");
+    if (popup) {
+        popup.style.top = window.scrollY+"px"
     }
-    paiementState.value = false
+    
+    await sleep(Math.random()*3000 + 2000)
+    
+    window.location="/Laurelin/account/commandes"
 }
 
 function changeLivraison(index){
@@ -230,16 +256,23 @@ function annuleLivraison() {
 
 function validateLivraison(){
     if(adresseMethod.value === "domicile"){
-        data["adresse"] = toRaw(props["adresses"])[currentAdresse.value]
+        if (props.adresses.length === 0) {
+            errorMesage.value = "Veuillez ajouter une adresse dans votre compte";
+            return;
+        }
+        data.value["adresse"] = toRaw(props["adresses"])[currentAdresse.value]
     }else{
-        data["adresse"] = toRaw(currentMagasin.value)
+        if (!currentMagasin.value) {
+            errorMesage.value = "Veuillez sélectionner un magasin";
+            return;
+        }
+        data.value["adresse"] = toRaw(currentMagasin.value)
     }
-    currentStep.value += 2
+    currentStep.value = 3
 }
 
-function changeadresseMethod(){
-    if(adresseMethod.value === "domicile")adresseMethod.value = "magasin"
-    else adresseMethod.value = "domicile"
+function changeadresseMethod(method){
+    adresseMethod.value = method
 }
 
 /* Gère l'espace du prix */

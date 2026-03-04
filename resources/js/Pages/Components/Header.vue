@@ -3,8 +3,8 @@
     <div id="burgerMenu" class="btn-side p-side" @click="showMenu = true">
         <span class="material-symbols-rounded">menu</span>
     </div>
-    <a href="/" id="imgWrapper">
-        <img src="/public/images/logo-simple.png" alt="Logo">
+    <a href="/Laurelin/" id="imgWrapper">
+        <img :src="'/Laurelin/images/logo-simple.png'" alt="Logo">
         <span>Laurelin</span>
     </a>
     <div id="centerWrapper">
@@ -18,13 +18,13 @@
         </div>
     </div>
     <div id="btn-wrapper">
-        <a href="/carte" class="btn-side" :class="{selected : currentPage === 'carte'}">
+        <a href="/Laurelin/carte" class="btn-side" :class="{selected : currentPage === 'carte'}">
             <span class="material-symbols-rounded">location_on</span>
         </a>
-        <a href="/account" class="btn-side" :class="{selected : currentPage === 'account'}">
+        <a href="/Laurelin/account" class="btn-side" :class="{selected : currentPage === 'account'}">
             <span class="material-symbols-rounded">person</span>
         </a>
-        <a href="/panier" class="p-side btn-side" :class="{selected : currentPage === 'panier'}">
+        <a href="/Laurelin/panier" class="p-side btn-side" :class="{selected : currentPage === 'panier'}">
             <span class="material-symbols-rounded">shopping_bag</span>
             <p>Panier</p>
             <p id="panierNumber" v-if="numberInPanier > 0">{{ numberInPanier }}</p>
@@ -43,11 +43,11 @@
             <span class="material-symbols-rounded">search</span>
             Rechercher
         </a>
-        <a href="/carte"  class="item" :class="{selected : currentPage === 'carte'}">
+        <a href="/Laurelin/carte"  class="item" :class="{selected : currentPage === 'carte'}">
             <span class="material-symbols-rounded">location_on</span>
             Nos boutiques
         </a>
-        <a href="/account" class="item" :class="{selected : currentPage === 'account'}">
+        <a href="/Laurelin/account" class="item" :class="{selected : currentPage === 'account'}">
             <span class="material-symbols-rounded">person</span>
             Espace personnel
         </a>
@@ -80,10 +80,10 @@
     const emits = defineEmits(["panierUpdated"])
 
     let allPages = {
-        "Accueil":"/",
-        "Nos bijoux":"/bijoux",
-        "Notre histoire" : "/histoire",
-        "Contact":"/contact"
+        "Accueil":"/Laurelin/",
+        "Nos bijoux":"/Laurelin/bijoux",
+        "Notre histoire" : "/Laurelin/histoire",
+        "Contact":"/Laurelin/contact"
     }
 
     const showMenu = ref(false)
@@ -97,18 +97,18 @@
     getNumberInPanier()
 
     function handleClick(id) {
-        window.location.href = `/produit/${id}`
+        window.location.href = `/Laurelin/produit/${id}`
     }
 
     // Request API
     const fetchResults = async (query) => {
         if (!query) return [];
-        const response = await fetch('/search/'+query);
+        const response = await fetch('/Laurelin/search/'+query);
         return await response.json();
     };
 
     function getNumberInPanier(){
-        fetch("/getNumberInPanier",{
+        fetch("/Laurelin/getNumberInPanier",{
             method : "GET",
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

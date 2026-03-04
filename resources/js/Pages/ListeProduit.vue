@@ -4,7 +4,7 @@
 
     <div id="page">
         <Error :message="errorMesage" v-if="errorMesage != ''" @click="errorMesage = ''"></Error>
-        <div id="FirstRange" :style="{ backgroundImage: `url('/pictures/categories/${categories}.1.webp'), url('/pictures/collections/${collections}.jpg')` }">
+        <div id="FirstRange" :style="{ backgroundImage: `url('/Laurelin/pictures/categories/${categories}.1.webp'), url('/Laurelin/pictures/collections/${collections}.jpg')` }">
             <span class="material-symbols-rounded">
               arrow_back_ios
             </span>
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <img id="logo" src="/public/images/logo-simple.png" alt="logo laurelin">
+        <img id="logo" :src="'/Laurelin/images/logo-simple.png'" alt="logo laurelin">
         <button id="plusProd" v-if="hasMoreProducts" @click="loadMoreProducts" class="font-subtitle-16">Charger plus</button>
     </div>
 
@@ -79,7 +79,7 @@ function changeFavorite(id){
     if(produitsAffiches.value[index].FAVORITE){
         dest = "supprimerFavoris"
     }
-    fetch("/"+dest,{
+    fetch("/Laurelin/"+dest,{
         method : "POST",
         body : JSON.stringify({
             "produit" : produitsAffiches.value[index].ID
@@ -150,18 +150,18 @@ containers.forEach(container => {
 
 
 const handleClick = (produit) => {
-    router.visit(`/produit/${produit.ID}`);
+    router.visit(`/Laurelin/produit/${produit.ID}`);
 };
 
 
 const handleTouchClick = (id) => {
-    router.visit(`/produit/${id}`);
+    router.visit(`/Laurelin/produit/${id}`);
 };
 
 function redirectOnClick(id){
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
     if(isTouchDevice){
-        window.location = "/produit/"+id
+        window.location = "/Laurelin/produit/"+id
     }
 }
 </script>

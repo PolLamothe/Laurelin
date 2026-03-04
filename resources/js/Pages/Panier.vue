@@ -6,7 +6,7 @@
             <div class="panier">
                 <div v-for="produitCmd in panierData.PRODUITS" v-if="panierData.PRODUITS.length > 0">
                     <div class="panierproduit"  v-for="i in produitCmd.QUANTITE">
-                        <a :href="'/produit/'+produitCmd.PRODUIT.ID" target="_self">
+                        <a :href="'/Laurelin/produit/'+produitCmd.PRODUIT.ID" target="_self">
                             <img alt="Produit" :src="produitCmd.PRODUIT.IMAGES[0]"/>
                         </a>
                         <div class="panierproduitinfo">
@@ -30,17 +30,17 @@
         <div class="rightWrapper">
             <div class="panierresume">
             <h2>SOUS TOTAL</h2>
-            <p class="incl">INCL. TVA</p>
-            <h1>{{ formatPrix(somme) }}€</h1>
-            <button onclick="window.location='/checkout'">Poursuivre ma commande</button>
+            <a href="/Laurelin/bijoux" class="continue">← Continuer ma visite</a>
+            ...
+            <button onclick="window.location='/Laurelin/checkout'">Poursuivre ma commande</button>
             <p class="secure">PAIEMENT SÉCURISÉ</p>
             <div id="payement">
-                <img src="/public/images/CB-Logo.png" alt="logo-CB">
-                <img src="/public/images/American-Express-Logo.png" alt="Amex-logo">
-                <img src="/public/images/Mastercard-Logo.png" alt="Master-logo">
-                <img src="/public/images/apple-pay-Logo.jpg" alt="apple-logo">
-                <img src="/public/images/PayPal-Logo.jpg" alt="Paypal-logo">
-                <img src="/public/images/Visa-Logo.jpg" alt="visa-logo">
+                <img :src="'/Laurelin/images/CB-Logo.png'" alt="logo-CB">
+                <img :src="'/Laurelin/images/American-Express-Logo.png'" alt="Amex-logo">
+                <img :src="'/Laurelin/images/Mastercard-Logo.png'" alt="Master-logo">
+                <img :src="'/Laurelin/images/apple-pay-Logo.jpg'" alt="apple-logo">
+                <img :src="'/Laurelin/images/PayPal-Logo.jpg'" alt="Paypal-logo">
+                <img :src="'/Laurelin/images/Visa-Logo.jpg'" alt="visa-logo">
             </div>
             <p class="returns">RETOURS ET ÉCHANGES SOUS 30 JOURS</p>
             <a href="#" class="legal">MENTIONS LÉGALES</a>
@@ -77,7 +77,7 @@ function updatePanierSomme(){
 }
 
 function addOtherProduct(id, tailleProd){
-    fetch("/panier/ajout",{
+    fetch("/Laurelin/panier/ajout",{
         method : "POST",
         body : JSON.stringify({
             produit : id,
@@ -97,7 +97,7 @@ function addOtherProduct(id, tailleProd){
 }
 
 function supprimerDuPanier(id, tailleProd){
-    fetch("/panier/supprimer",{
+    fetch("/Laurelin/panier/supprimer",{
         method:"POST",
         body:JSON.stringify({"produit" : id, "taille" : tailleProd}),
         headers: {

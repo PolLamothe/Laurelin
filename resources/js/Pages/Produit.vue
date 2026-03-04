@@ -124,7 +124,7 @@ function changeFavorite(id){
     if(prodAssocier.value[index].FAVORITE){
         dest = "supprimerFavoris"
     }
-    fetch("/"+dest,{
+    fetch("/Laurelin/"+dest,{
         method : "POST",
         body : JSON.stringify({
             "produit" : prodAssocier.value[index].ID
@@ -159,7 +159,7 @@ function updateUserComment() {
 }
 
 function deleteCommentaire(){
-    fetch("/supprimerCommentaire",{
+    fetch("/Laurelin/supprimerCommentaire",{
         method : "POST",
         body : JSON.stringify({
             "produit" : props.produit.ID
@@ -180,7 +180,7 @@ function deleteCommentaire(){
 }
 
 function sendCommentaire(){
-    fetch("/nouveauCommentaire",{
+    fetch("/Laurelin/nouveauCommentaire",{
         method : "POST",
         body : JSON.stringify({
             "produit" : props.produit.ID,
@@ -213,9 +213,9 @@ const prodAssocier = ref([]);
 
 
 function favorisAction(){
-    let destination = "/ajouterFavoris"
+    let destination = "/Laurelin/ajouterFavoris"
     if(dynamicFavorite.value){
-        destination = "/supprimerFavoris"
+        destination = "/Laurelin/supprimerFavoris"
     }
     fetch(destination,{
         method : "POST",
@@ -251,7 +251,7 @@ onMounted(() => {
 });
 
 const handleClick = (produit) => {
-    router.visit(`/produit/${produit.ID}`);
+    router.visit(`/Laurelin/produit/${produit.ID}`);
 };
 </script>
 

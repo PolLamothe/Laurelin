@@ -28,7 +28,7 @@ class ImageSeeder extends Seeder
 
             foreach ($images as $imagePath) {
                 $filename = basename($imagePath);
-                $url = "/pictures/produits/$id_prod/$filename";
+                $url = "/Laurelin/pictures/produits/$id_prod/$filename";
 
                 DB::table('Image')->insert([
                     "URL" => $url,

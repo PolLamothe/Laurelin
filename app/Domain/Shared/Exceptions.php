@@ -65,7 +65,7 @@ class Exceptions
 class CustomExceptions extends \Exception{
     public int $httpCode;
 
-    public function __contruct(string $message,int $code){
-        parent::__contruct($message,$code);
+    public function __construct(string $message,int $code){
+        parent::__construct($message,$code);
     }
 }

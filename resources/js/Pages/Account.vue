@@ -73,7 +73,7 @@
                 <div v-show="favorisImagesCount >= dynamicFavoris.length" v-for="favori in dynamicFavoris" class="favorisWrappers">
                     <div style="position: relative;width: fit-content" class="imageWrapper">
                         <div id="image">
-                            <a :href="'/produit/'+favori.ID" target="_blank">
+                            <a :href="'/Laurelin/produit/'+favori.ID" target="_blank">
                                 <img :src="favori.IMAGES[0]" class="favorisImage" @load="favorisImageLoaded()">
                             </a>
                             <span class="material-symbols-rounded favoriteRemoveSymbol displayHover" @click="supprimerFavoris(favori.ID)">
@@ -185,7 +185,7 @@ let props = defineProps(
     }
 
     function newAdresseClicked(){
-        fetch("/adresse/ajout",{
+        fetch("/Laurelin/adresse/ajout",{
             method : "POST",
             body : JSON.stringify({
                 "Numéro" : ajoutAdresseData.value["Numéro"],
@@ -206,7 +206,7 @@ let props = defineProps(
         if(codePostal === ""){
             villesSuggest.value = []
         }else{
-            fetch("/adresse/getVilles/"+codePostal,{
+            fetch("/Laurelin/adresse/getVilles/"+codePostal,{
                 method:"GET",
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -219,7 +219,7 @@ let props = defineProps(
     }
 
     function deleteAdresse(id){
-        fetch("/adresse/supprimer",{
+        fetch("/Laurelin/adresse/supprimer",{
             method:"POST",
             body: JSON.stringify({"ID":id}),
             headers: {
@@ -249,7 +249,7 @@ let props = defineProps(
     }
 
     function supprimerFavoris(id){
-        fetch("/supprimerFavoris",{
+        fetch("/Laurelin/supprimerFavoris",{
             method : "POST",
             body : JSON.stringify({
                 produit : id
@@ -266,7 +266,7 @@ let props = defineProps(
     }
 
     function logout() {
-        fetch("/account", {
+        fetch("/Laurelin/account", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -275,7 +275,7 @@ let props = defineProps(
         })
             .then(response => {
                 if (response.ok) {
-                    window.location.href = '/auth';
+                    window.location.href = '/Laurelin/auth';
                 } else {
                     console.error('Erreur lors de la déconnexion');
                 }

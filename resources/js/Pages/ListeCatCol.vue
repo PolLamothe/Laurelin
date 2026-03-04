@@ -9,9 +9,9 @@
     </div>
 
     <div class="cat-wrapper">
-        <div class="cat" v-for="categorie in categories" @click="handleClick(`/categories/${categorie.NOM}`)">
+        <div class="cat" v-for="categorie in categories" @click="handleClick('/categories/' + categorie.NOM)">
             <div class="black-frame"></div>
-            <img :src="'/pictures/categories/'+categorie.ID+'.webp'">
+            <img :src="'/Laurelin/pictures/categories/' + categorie.ID + '.webp'">
             <p class="cat-text-overlay">{{ categorie.NOM }}</p>
         </div>
     </div>
@@ -20,11 +20,11 @@
         <h3 class="font-title-24">Les collections Laurelin</h3>
         <div class="collections-wrapper">
             <div class="collection-item" v-for="collection in collections">
-                <img :src="`/pictures/collections/${collection.ID}.avif`" @click="handleClick(`/collections/${collection.NOM}`)">
+                <img :src="'/Laurelin/pictures/collections/' + collection.ID + '.jpg'" @click="handleClick('/collections/' + collection.NOM)">
                 <h5 class="font-subtitle-16">{{collection.NOM}}</h5>
                 <span class="collection-year">{{collection.ANNEE}}</span>
                 <p class="font-body-m">{{collection.DESCRIPTION}}</p>
-                <a :href="`/collections/${collection.NOM}`" class="collection-btn font-body-l">Découvrir la collection</a>
+                <a :href="'/Laurelin/collections/' + collection.NOM" class="collection-btn font-body-l">Découvrir la collection</a>
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@ defineProps({
 })
 
 function handleClick(url) {
-    window.location.href = encodeURI(url)
+    window.location.href = encodeURI("/Laurelin" + url)
 }
 </script>
 
@@ -54,7 +54,7 @@ function handleClick(url) {
         display: flex;
         justify-content: center;
         align-items: center;
-        background: url("/public/images/nos_bijoux.jpg") no-repeat center center/cover;
+        background: url("/Laurelin/images/nos_bijoux.jpg") no-repeat center center/cover;
     }
     .text-overlay {
         color: white;

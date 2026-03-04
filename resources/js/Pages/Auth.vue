@@ -2,17 +2,17 @@
     <div id="globalWrapper">
         <Error :message="errorMesage" v-if="errorMesage != ''" @click="errorMesage = ''"></Error>
         <div id="leftWrapper">
-            <img id="globalImage" src="/public/images/login-bijoux.avif">
+            <img id="globalImage" :src="'/Laurelin/images/login-bijoux.avif'">
         </div>
         <div id="rightWrapper">
-            <div id="backWrapper" onclick="window.location = '/'">
+            <div id="backWrapper" onclick="window.location = '/Laurelin/'">
                 <span class="material-symbols-rounded">
                     arrow_back
                 </span>
                 <p class="font-body-m">Retour</p>
             </div>
             <div id="formWrapper">
-                <img src="/public/images/logo.png" id="logo">
+                <img :src="'/Laurelin/images/logo.png'" id="logo">
                 <div id="authChoiceWrapper">
                     <button :class="{autChoiceActive :  authMethod === 'login'}" @click="changeAuthMethod()" class="font-subtitle-16">Connexion</button>
                     <button :class="{autChoiceActive :  authMethod === 'register'}" @click="changeAuthMethod()" class="font-subtitle-16">Inscription</button>

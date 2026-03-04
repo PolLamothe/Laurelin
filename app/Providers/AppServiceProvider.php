@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -21,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Forcer le préfixe pour toutes les URLs générées
+        URL::forceRootUrl(config('app.url'));
+
         EncryptCookies::except('redirect');
         DB::listen(function ($query) {
             File::append(

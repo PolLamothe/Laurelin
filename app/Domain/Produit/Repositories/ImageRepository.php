@@ -11,7 +11,8 @@ class ImageRepository
     {
         $imagesModel = ImageModel::where("ID_PRODUIT", $produitEntity->id)->pluck("URL")->toArray();
         if (!empty($imagesModel)) {
-            $produitEntity->setImages($imagesModel);
+            $formattedImages = array_map([$this, 'formatUrl'], $imagesModel);
+            $produitEntity->setImages($formattedImages);
         }
     }
 
@@ -29,11 +30,19 @@ class ImageRepository
 
             foreach ($imagesModels as $imageModel){
                 if ($imageModel->ID_PRODUIT == $produitEntity->id){
-                    $imageModels[] = $imageModel["URL"];
+                    $imageModels[] = $this->formatUrl($imageModel["URL"]);
                 }
             }
 
             $produitEntity->setImages($imageModels);
         }
+    }
+
+    private function formatUrl(string $url): string
+    {
+        if (str_starts_with($url, '/Laurelin/')) {
+            return $url;
+        }
+        return '/Laurelin' . (str_starts_with($url, '/') ? '' : '/') . $url;
     }
 }
